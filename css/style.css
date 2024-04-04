@@ -1,0 +1,9 @@
+/* set the background of the entire website to the HEX code F1EAD5 */
+body {
+    background-color: white;
+} /* BACKGROUND COLOR */
+
+.navbar-collapse, .container {
+    margin-left: 50px;
+    margin-right: 50px;
+} /* NAVBAR MARGINS */
