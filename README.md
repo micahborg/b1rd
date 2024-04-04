@@ -1,4 +1,5 @@
 # B1RD: Online Bird Adoption Platform Concept
+***This project runs on the XAMPP Apache distribution***
 
 ## Introduction
 
