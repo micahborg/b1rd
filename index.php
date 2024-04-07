@@ -33,12 +33,12 @@
             <div class="col-3 text-center">
                 <h2>Discover</h2>
                 <p>Discover the perfect bird for you!</p>
-                <a href="#" class="btn btn-outline-secondary">Discover Now</a>
+                <a href="discover.php" class="btn btn-outline-secondary">Discover Now</a>
             </div>
             <div class="col-3 text-center">
                 <h2>Learn</h2>
                 <p>Learn more about birds and how to care for them!</p>
-                <a href="#" class="btn btn-outline-secondary">Learn More</a>
+                <a href="about.php" class="btn btn-outline-secondary">Learn More</a>
             </div>
         </div>
     </div>
