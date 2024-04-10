@@ -23,7 +23,7 @@
         $username = isset($_GET['username']) ? $_GET['username'] : ''; // check if 'username' is present in query parameters
         ?>
 
-        <form action="index.php" method="post" style="padding: 20px 700px;">
+        <form action="index.php" method="post" style="padding: 20px 500px;">
             <div class="form-group">
                 <input class="form-control" type="text" placeholder="Username" aria-label="Username" name="username" value="<?php echo htmlspecialchars($username); ?>">
             </div>
@@ -33,7 +33,7 @@
         <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Login</button>
         </form>
 
-        <p style="padding: 20px 700px;">Don't have an account? <a href="#" data-toggle="modal" data-target="#signupModal">Sign up</a>.</p>
+        <p style="padding: 20px 500px;">Don't have an account? <a href="#" data-toggle="modal" data-target="#signupModal">Sign up</a>.</p>
 
         <!-- Sign up Modal -->
         <div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="signupModalLabel" aria-hidden="true">
