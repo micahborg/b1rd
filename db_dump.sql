@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.31, for Linux (x86_64)
 --
--- Host: 127.0.0.1    Database: B1RD
+-- Host: 127.0.0.1    Database: B1RD_DB
 -- ------------------------------------------------------
 -- Server version	8.0.31-google
 
@@ -16,12 +16,12 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Current Database: `B1RD`
+-- Current Database: `B1RD_DB`
 --
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `B1RD` /*!40100 DEFAULT CHARACTER SET utf8mb3 */ /*!80016 DEFAULT ENCRYPTION='N' */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `B1RD_DB` /*!40100 DEFAULT CHARACTER SET utf8mb3 */ /*!80016 DEFAULT ENCRYPTION='N' */;
 
-USE `B1RD`;
+USE `B1RD_DB`;
 
 --
 -- Table structure for table `AdoptionApplication`
@@ -31,16 +31,16 @@ DROP TABLE IF EXISTS `AdoptionApplication`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `AdoptionApplication` (
-  `ApplicationID` int NOT NULL AUTO_INCREMENT,
-  `BirdID` int DEFAULT NULL,
-  `UserID` int DEFAULT NULL,
-  `ApplicationDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `AdoptionStatus` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`ApplicationID`),
-  KEY `BirdID` (`BirdID`),
-  KEY `UserID` (`UserID`),
-  CONSTRAINT `AdoptionApplication_ibfk_1` FOREIGN KEY (`BirdID`) REFERENCES `Bird` (`BirdID`),
-  CONSTRAINT `AdoptionApplication_ibfk_2` FOREIGN KEY (`UserID`) REFERENCES `User` (`UserID`)
+  `application_id` int NOT NULL AUTO_INCREMENT,
+  `bird_id` int DEFAULT NULL,
+  `user_id` int DEFAULT NULL,
+  `application_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `adoption_status` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`application_id`),
+  KEY `bird_id` (`bird_id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `AdoptionApplication_ibfk_1` FOREIGN KEY (`bird_id`) REFERENCES `Bird` (`bird_id`),
+  CONSTRAINT `AdoptionApplication_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `User` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -61,18 +61,18 @@ DROP TABLE IF EXISTS `Bird`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `Bird` (
-  `BirdID` int NOT NULL AUTO_INCREMENT,
-  `ShelterID` int DEFAULT NULL,
-  `Species` varchar(50) DEFAULT NULL,
-  `Type` varchar(50) DEFAULT NULL,
-  `Age` int DEFAULT NULL,
-  `MedicalHistory` text,
-  `AdoptionStatus` varchar(20) DEFAULT NULL,
-  `Behavior` text,
-  `Name` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`BirdID`),
-  KEY `ShelterID` (`ShelterID`),
-  CONSTRAINT `Bird_ibfk_1` FOREIGN KEY (`ShelterID`) REFERENCES `Shelter` (`ShelterID`)
+  `bird_id` int NOT NULL AUTO_INCREMENT,
+  `shelter_id` int DEFAULT NULL,
+  `species` varchar(50) DEFAULT NULL,
+  `bird_type` varchar(50) DEFAULT NULL,
+  `bird_age` int DEFAULT NULL,
+  `medical_history` text,
+  `adoption_status` varchar(20) DEFAULT NULL,
+  `behavior` text,
+  `bird_name` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`bird_id`),
+  KEY `shelter_id` (`shelter_id`),
+  CONSTRAINT `Bird_ibfk_1` FOREIGN KEY (`shelter_id`) REFERENCES `Shelter` (`shelter_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -94,11 +94,11 @@ DROP TABLE IF EXISTS `Shelter`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `Shelter` (
-  `ShelterID` int NOT NULL AUTO_INCREMENT,
-  `PhoneNumber` varchar(20) DEFAULT NULL,
-  `Name` varchar(100) DEFAULT NULL,
-  `Location` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`ShelterID`)
+  `shelter_id` int NOT NULL AUTO_INCREMENT,
+  `phone_number` varchar(20) DEFAULT NULL,
+  `shelter_name` varchar(100) DEFAULT NULL,
+  `location` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`shelter_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -120,13 +120,13 @@ DROP TABLE IF EXISTS `User`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `User` (
-  `UserID` int NOT NULL AUTO_INCREMENT,
-  `Name` varchar(100) DEFAULT NULL,
-  `PhoneNumber` varchar(20) DEFAULT NULL,
-  `Email` varchar(100) DEFAULT NULL,
-  `UserPassword` varchar(100) DEFAULT NULL,
-  `UserType` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`UserID`)
+  `user_id` int NOT NULL AUTO_INCREMENT,
+  `user_name` varchar(100) DEFAULT NULL,
+  `phone_number` varchar(20) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `user_password` varchar(100) DEFAULT NULL,
+  `user_type` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

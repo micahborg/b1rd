@@ -1,3 +1,42 @@
+<?php
+session_start();
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+include("connection.php");
+
+// Login functionality
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
+    $user_name = $_POST['user_name'];
+    $password = $_POST['user_password'];
+
+    if (!empty($user_name) && !empty($password) && !is_numeric($user_name)) {
+        $query = "SELECT * FROM user WHERE user_name = ? LIMIT 1";
+        $stmt = $con->prepare($query);
+        $stmt->bind_param("s", $user_name);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $user_data = $result->fetch_assoc();
+            if ($user_data['user_password'] === $password) {
+                $_SESSION['user_id'] = $user_data['user_id'];
+                header("Location: index.php");
+                exit;
+            } else {
+                echo "Wrong username or password!";
+            }
+        } else {
+            echo "User does not exist!";
+        }
+    } else {
+        echo "Invalid username or password.";
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,18 +58,22 @@
             <h1>Login</h1>
         </div>
 
-        <?php
-        $username = isset($_GET['username']) ? $_GET['username'] : ''; // check if 'username' is present in query parameters
-        ?>
-
-        <form action="index.php" method="post" style="padding: 20px 500px;">
-            <div class="form-group">
-                <input class="form-control" type="text" placeholder="Username" aria-label="Username" name="username" value="<?php echo htmlspecialchars($username); ?>">
+        <?php if (!empty($error)): ?>
+        <p style="color: red;"><?= htmlspecialchars($error) ?></p>
+        <?php endif; ?>
+        
+        <form action="" method="POST">
+            <div>
+                <label for="user_name">Username:</label>
+                <input type="text" id="user_name" name="user_name" required>
             </div>
-            <div class="form-group">
-            <input class="form-control" type="password" placeholder="Password" aria-label="Password" name="password">
+            <div>
+                <label for="user_password">Password:</label>
+                <input type="password" id="user_password" name="user_password" required>
             </div>
-        <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Login</button>
+            <div>
+                <button type="submit" name="login">Login</button>
+            </div>
         </form>
 
         <p style="padding: 20px 500px;">Don't have an account? <a href="#" data-toggle="modal" data-target="#signupModal">Sign up</a>.</p>
