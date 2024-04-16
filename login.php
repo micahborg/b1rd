@@ -1,15 +1,18 @@
 <?php
-session_start();
+if(!isset($_SESSION)) 
+{ 
+    session_start(); 
+} 
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 include("connection.php");
 
-// Login functionality
+// login functionality
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
-    $user_name = $_POST['user_name'];
-    $password = $_POST['user_password'];
+    $user_name = $_POST['username'];
+    $password = $_POST['password'];
 
     if (!empty($user_name) && !empty($password) && !is_numeric($user_name)) {
         $query = "SELECT * FROM user WHERE user_name = ? LIMIT 1";
@@ -22,6 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
             $user_data = $result->fetch_assoc();
             if ($user_data['user_password'] === $password) {
                 $_SESSION['user_id'] = $user_data['user_id'];
+                $_SESSION['username'] = $user_data['username'];
                 header("Location: index.php");
                 exit;
             } else {
@@ -35,6 +39,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
     }
 }
 
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signup_submit'])) {
+    $username = trim($_POST['username']);
+    $email = trim($_POST['email']);
+    $phone_number = trim($_POST['phone_number']);
+    $password = trim($_POST['password']);
+    $user_type = trim($_POST['user_type']);
+
+    if (empty($username) || empty($email) || empty($phone_number) || empty($password) || empty($user_type)) {
+        echo "Please fill in all fields.";
+    } else {
+        $stmt = $con->prepare("INSERT INTO user (user_name, email, phone_number, user_password, user_type) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssss", $username, $email, $phone_number, $password, $user_type);
+
+        if ($stmt->execute()) {
+            echo "Registered successfully!";
+        } else {
+            echo "Error: " . $stmt->error;
+        }
+
+        $stmt->close();
+    }
+    $con->close();
+}
 ?>
 
 <!DOCTYPE html>
@@ -61,24 +88,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
         <?php if (!empty($error)): ?>
         <p style="color: red;"><?= htmlspecialchars($error) ?></p>
         <?php endif; ?>
-        
-        <form action="" method="POST">
-            <div>
-                <label for="user_name">Username:</label>
-                <input type="text" id="user_name" name="user_name" required>
-            </div>
-            <div>
-                <label for="user_password">Password:</label>
-                <input type="password" id="user_password" name="user_password" required>
-            </div>
-            <div>
-                <button type="submit" name="login">Login</button>
-            </div>
-        </form>
 
-        <p style="padding: 20px 500px;">Don't have an account? <a href="#" data-toggle="modal" data-target="#signupModal">Sign up</a>.</p>
+        <?php
+        $username = isset($_GET['username']) ? $_GET['username'] : ''; // check if 'username' is present in query parameters
+        ?>
 
-        <!-- Sign up Modal -->
+        <form action="" method="post" style="padding: 20px 700px;">
+            <div class="form-group">
+                <input class="form-control" type="text" placeholder="Username" aria-label="Username" name="username" value="<?php echo htmlspecialchars($username); ?>">
+            </div>
+            <div class="form-group">
+            <input class="form-control" type="password" placeholder="Password" aria-label="Password" name="password">
+            </div>
+        <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit" name="login">Login</button>
+        </form> 
+
+        <p style="padding: 20px 700px;">Don't have an account? <a href="#" data-toggle="modal" data-target="#signupModal">Sign up</a>.</p>
+
         <div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="signupModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -90,14 +116,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
                     </div>
                     <div class="modal-body">
                         <!-- Sign up form -->
-                        <form action="signup.php" method="post">
+                        <form action="" method="post">
                             <div class="form-group">
-                                <input class="form-control" type="text" placeholder="Username" aria-label="Username" name="username">
+                                <input class="form-control" type="text" placeholder="Username" aria-label="Username" name="username" required>
                             </div>
                             <div class="form-group">
-                                <input class="form-control" type="password" placeholder="Password" aria-label="Password" name="password">
+                                <input class="form-control" type="email" placeholder="Email" aria-label="Email" name="email" required>
                             </div>
-                            <button class="btn btn-primary" type="submit">Sign Up</button>
+                            <div class="form-group">
+                                <input class="form-control" type="text" placeholder="Phone Number" aria-label="Phone Number" name="phone_number" required>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" type="password" placeholder="Password" aria-label="Password" name="password" required>
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control" name="user_type" required>
+                                    <option value="adopter">Adopter</option>
+                                    <option value="shelter">Shelter</option>
+                                </select>
+                            </div>
+                            <button class="btn btn-primary" type="submit" name="signup_submit">Sign Up</button>
                         </form>
                     </div>
                 </div>

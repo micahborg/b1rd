@@ -1,7 +1,7 @@
 <?php
 $db_host = "localhost";
-$db_user = getenv('MY_SQL_USER');
-$db_password = getenv('MY_SQL_PASS');
+$db_user = "root";
+$db_password = "password";
 $db_name = "B1RD_DB";
 
 $con = new mysqli($db_host, $db_user, $db_password, $db_name);
