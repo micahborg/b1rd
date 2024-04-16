@@ -1,3 +1,10 @@
+<?php
+if(!isset($_SESSION)) 
+{ 
+    session_start(); 
+} 
+include("connection.php");
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,7 +35,13 @@
             <div class="col-3 text-center">
                 <h2>Adopt</h2>
                 <p>Find your perfect bird companion today!</p>
-                <a href="login.php" class="btn btn-outline-secondary">Adopt Now</a>
+                <?php
+                if(isset($_SESSION['user_id'])) {
+                    echo '<a href="discover.php" class="btn btn-outline-secondary">Adopt Now</a>';
+                } else {
+                    echo '<a href="login.php" class="btn btn-outline-secondary">Adopt Now</a>';
+                }
+                ?>
             </div>
             <div class="col-3 text-center">
                 <h2>Discover</h2>

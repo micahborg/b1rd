@@ -4,9 +4,6 @@ if(!isset($_SESSION))
     session_start(); 
 } 
 include("connection.php");
-
-$query = "SELECT * FROM Bird";
-$result = $con->query($query);
 ?>
 
 <!DOCTYPE html>
@@ -42,14 +39,20 @@ $result = $con->query($query);
 
     <!-- MAIN CONTENT -->
     <div class="container-fluid">
-        <div class="row justify-content-center" style="padding: 100px 0px 0px 0px;">
+        <div class="row justify-content-center" style="padding: 50px 0px 0px 0px;">
             <h1>Discover</h1>
         </div>
         <div class="container">
-        <?php if ($result->num_rows > 0): ?>
+        <?php 
+        $query = "SELECT * FROM Bird";
+        $result = $con->query($query);
+        if ($result->num_rows > 0):    ?>
             <?php while ($row = $result->fetch_assoc()): ?>
                 <div class="card">
-                    <div class="card-body"> 
+                    <div class="card-body">
+                        <?php
+                            echo '<img class="card-img-top" src="data:image/jpeg;base64,'.base64_encode($row['bird_image']).'" alt="Card image cap">'
+                        ?>
                         <h5 class="card-title"><?= htmlspecialchars($row['bird_name']) ?></h5>
                         <p class="card-text">Species: <?= htmlspecialchars($row['species']) ?></p>
                         <p>Type: <?= htmlspecialchars($row['bird_type']) ?></p>
@@ -64,7 +67,7 @@ $result = $con->query($query);
         <?php else: ?>
             <p>No birds found.</p>
         <?php endif; ?>
-    </div>
+        </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>

@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
             $user_data = $result->fetch_assoc();
             if ($user_data['user_password'] === $password) {
                 $_SESSION['user_id'] = $user_data['user_id'];
-                $_SESSION['username'] = $user_data['username'];
+                $_SESSION['username'] = $user_data['user_name'];
                 header("Location: index.php");
                 exit;
             } else {
@@ -74,6 +74,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signup_submit'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
+    <style>
+    .login-form {
+        padding: 20px; /* Provides consistent padding around the form */
+        max-width: 500px; /* Limits the maximum width of the form */
+        margin: auto; /* Centers the form horizontally */
+    }
+
+    .account-query {
+        padding: 20px;
+        max-width: 500px;
+        margin: auto; /* Aligns text block with the form */
+        text-align: center; /* Centers the link text */
+    }
+
+    @media (max-width: 600px) {
+        .login-form, .account-query {
+            padding: 20px 10px; /* Reduces padding on smaller screens */
+        }
+    }
+    </style>
 </head>
 <body> 
     <!-- NAVBAR/FOOTER -->  
@@ -93,7 +113,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signup_submit'])) {
         $username = isset($_GET['username']) ? $_GET['username'] : ''; // check if 'username' is present in query parameters
         ?>
 
-        <form action="" method="post" style="padding: 20px 700px;">
+        <form action="" method="post" class="login-form">
             <div class="form-group">
                 <input class="form-control" type="text" placeholder="Username" aria-label="Username" name="username" value="<?php echo htmlspecialchars($username); ?>">
             </div>
@@ -103,7 +123,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signup_submit'])) {
         <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit" name="login">Login</button>
         </form> 
 
-        <p style="padding: 20px 700px;">Don't have an account? <a href="#" data-toggle="modal" data-target="#signupModal">Sign up</a>.</p>
+        <p class="login-form">Don't have an account? <a href="#" data-toggle="modal" data-target="#signupModal">Sign up</a>.</p>
 
         <div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="signupModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">

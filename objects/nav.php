@@ -1,9 +1,3 @@
-<?php
-if(!isset($_SESSION)) 
-{ 
-    session_start(); 
-}
-?>
 <!DOCTYPE html>
 <nav class="navbar navbar-expand-lg navbar-light">
     <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
