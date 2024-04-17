@@ -8,7 +8,7 @@
         <a class="navbar-brand" href="index.php">B1RD</a>
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <li class="nav-item active">
-                <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="index.php">Home</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="discover.php">Discover</a>
@@ -20,19 +20,22 @@
                 echo '<li class="nav-item">
                         <a class="nav-link" href="profile.php">Profile</a>
                     </li>';
+                echo '<li class="nav-item">
+                        <a class="nav-link" href="applications.php">Appplications</a>
+                    </li>';
                 $query = "SELECT * FROM user WHERE user_id = $user_id";
                 $result = $con->query($query);
                 $row = $result->fetch_assoc();
                 if ($row['user_type'] == 'shelter') {
                     echo '<li class="nav-item">
-                            <a class="nav-link" href="list.php">My Birds</a>
+                            <a class="nav-link" href="my_birds.php">My Birds</a>
                         </li>';
                 }
             }
             ?>
         </ul>
-        <?php
 
+        <?php
         // check if user is logged in
         if (isset($_SESSION['user_id'])) {
             $user_id = $_SESSION['user_id'];

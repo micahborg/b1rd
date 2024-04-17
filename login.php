@@ -26,6 +26,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
             if ($user_data['user_password'] === $password) {
                 $_SESSION['user_id'] = $user_data['user_id'];
                 $_SESSION['username'] = $user_data['user_name'];
+                $_SESSION['user_type'] = $user_data['user_type'];
+                if ($user_data['user_type'] === 'shelter') {
+                    $query = "SELECT * FROM user JOIN shelter ON user.user_id = shelter.user_id WHERE user.user_id = ? LIMIT 1"; // join user and shelter tables to get shelter_id
+                    $stmt = $con->prepare($query);
+                    $stmt->bind_param("i", $user_data['user_id']);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+                    $user_data = $result->fetch_assoc();
+                    $_SESSION['shelter_id'] = $user_data['shelter_id'];
+                }
                 header("Location: index.php");
                 exit;
             } else {
@@ -39,6 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
     }
 }
 
+// sign up functionality
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signup_submit'])) {
     $username = trim($_POST['username']);
     $email = trim($_POST['email']);
@@ -53,14 +64,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signup_submit'])) {
         $stmt->bind_param("sssss", $username, $email, $phone_number, $password, $user_type);
 
         if ($stmt->execute()) {
-            echo "Registered successfully!";
+            $query = "SELECT * FROM user WHERE user_name = ? LIMIT 1";
+            $stmt = $con->prepare($query);
+            $stmt->bind_param("s", $username);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $user_data = $result->fetch_assoc();
+            $_SESSION['user_id'] = $user_data['user_id'];
+            $_SESSION['username'] = $user_data['user_name'];
+            $_SESSION['user_type'] = $user_data['user_type'];
+            if ($user_data['user_type'] === 'shelter') {
+                $query = "SELECT * FROM user JOIN shelter ON user.user_id = shelter.user_id WHERE user.user_id = ? LIMIT 1"; // join user and shelter tables to get shelter_id
+                $stmt = $con->prepare($query);
+                $stmt->bind_param("i", $user_data['user_id']);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                $user_data = $result->fetch_assoc();
+                $_SESSION['shelter_id'] = $user_data['shelter_id'];
+            }
+            header("Location: index.php");
+            exit;
         } else {
             echo "Error: " . $stmt->error;
         }
-
-        $stmt->close();
     }
-    $con->close();
 }
 ?>
 
@@ -101,7 +128,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signup_submit'])) {
 
     <!-- MAIN CONTENT -->
     <div class="container-fluid">
-        <div class="row justify-content-center" style="padding: 100px 0px 0px 0px;">
+        <div class="row justify-content-center" style="padding: 50px 0px 0px 0px;">
             <h1>Login</h1>
         </div>
 
@@ -125,6 +152,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signup_submit'])) {
 
         <p class="login-form">Don't have an account? <a href="#" data-toggle="modal" data-target="#signupModal">Sign up</a>.</p>
 
+        <!-- Sign Up Modal -->
         <div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="signupModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
