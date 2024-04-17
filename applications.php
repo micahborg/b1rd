@@ -58,7 +58,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_status'])) {
                       JOIN bird ON adoptionapplication.bird_id = bird.bird_id 
                       JOIN user ON adoptionapplication.user_id = user.user_id
                       JOIN shelter ON bird.shelter_id = shelter.shelter_id
-                      WHERE bird.shelter_id = ?";
+                      WHERE bird.shelter_id = ?
+                      ORDER BY application_id DESC";
             $stmt = $con->prepare($query);
             $stmt->bind_param("i", $shelter_id);
             $stmt->execute();
@@ -102,7 +103,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_status'])) {
             $query = "SELECT * FROM adoptionapplication 
                       JOIN bird ON adoptionapplication.bird_id = bird.bird_id 
                       JOIN shelter ON bird.shelter_id = shelter.shelter_id 
-                      WHERE adoptionapplication.user_id = ?";
+                      WHERE adoptionapplication.user_id = ?
+                      ORDER BY application_id DESC";
             $stmt = $con->prepare($query);
             $stmt->bind_param("i", $user_id);
             $stmt->execute();

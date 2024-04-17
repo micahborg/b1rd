@@ -38,7 +38,7 @@ if (isset($_POST['changes_submit'])) {
         $stmt->execute();
     }
 
-    if (!empty($current_password)) {
+    if (!empty($new_password)) {
         $stmt = $con->prepare("SELECT * FROM user WHERE user_id = ?");
         $stmt->bind_param("i", $user_id);
         $stmt->execute();
