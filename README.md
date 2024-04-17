@@ -9,6 +9,8 @@
 4. Configure connection.php
 5. Start/Run Apache Server
 
+![Homepage](images/homepage.png)
+
 ## Introduction
 
 Our scenario revolves around developing an online bird adoption platform dedicated to
