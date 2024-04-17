@@ -51,7 +51,7 @@ include("connection.php");
             <div class="col-3 text-center">
                 <h2>Learn</h2>
                 <p>Learn more about birds and how to care for them!</p>
-                <a href="about.php" class="btn btn-outline-secondary">Learn More</a>
+                <a href="https://en.wikipedia.org/wiki/Bird" class="btn btn-outline-secondary">Learn More</a>
             </div>
         </div>
     </div>

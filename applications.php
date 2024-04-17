@@ -64,34 +64,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_status'])) {
             $stmt->execute();
             $result = $stmt->get_result();
 
-            while ($row = mysqli_fetch_assoc($result)) {
-                echo '<div class="card">';
-                echo '<div class="card-body">';
-                echo '<h5 class="card-title">Application ID: ' . $row['application_id'] . '</h5>';
-                echo '<h5 class="card-text">Applicant Name: ' . $row['user_name'] . '</h5>';
-                echo '<p class="card-text">Shelter Name: ' . $row['shelter_name'] . '</p>';
-                echo '<p class="card-text">Bird Name: ' . $row['bird_name'] . '</p>';
-                echo '<p class="card-text">Reason: ' . $row['reason_for_adoption'] . '</p>';
-                if ($row['application_status'] == 'Pending') {
-                    echo '<div class="alert alert-primary" role="alert">Adoption Status: ' . $row['application_status'] . '</div>';
-                    echo '<form action="" method="post">';
-                    echo '<input type="hidden" name="application_id" value="' . $row['application_id'] . '">';
-                    echo '<div class="form-group">';
-                    echo '<label for="status">Update Status:</label>';
-                    echo '<select class="form-control" id="status" name="status">';
-                    echo '<option value="Accepted">Accepted</option>';
-                    echo '<option value="Denied">Denied</option>';
-                    echo '</select>';
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    echo '<div class="card">';
+                    echo '<div class="card-body">';
+                    echo '<h5 class="card-title">Application ID: ' . $row['application_id'] . '</h5>';
+                    echo '<h5 class="card-text">Applicant Name: ' . $row['user_name'] . '</h5>';
+                    echo '<p class="card-text">Shelter Name: ' . $row['shelter_name'] . '</p>';
+                    echo '<p class="card-text">Bird Name: ' . $row['bird_name'] . '</p>';
+                    echo '<p class="card-text">Reason: ' . $row['reason_for_adoption'] . '</p>';
+                    if ($row['application_status'] == 'Pending') {
+                        echo '<div class="alert alert-primary" role="alert">Adoption Status: ' . $row['application_status'] . '</div>';
+                        echo '<form action="" method="post">';
+                        echo '<input type="hidden" name="application_id" value="' . $row['application_id'] . '">';
+                        echo '<div class="form-group">';
+                        echo '<label for="status">Update Status:</label>';
+                        echo '<select class="form-control" id="status" name="status">';
+                        echo '<option value="Accepted">Accepted</option>';
+                        echo '<option value="Denied">Denied</option>';
+                        echo '</select>';
+                        echo '</div>';
+                        echo '<button type="submit" name="update_status" class="btn btn-primary">Submit</button>';
+                        echo '</form>';
+                    } elseif ($row['application_status'] == 'Denied') {
+                        echo '<div class="alert alert-danger" role="alert">Adoption Status: ' . $row['application_status'] . '</div>';
+                    } elseif ($row['application_status'] == 'Accepted') {
+                        echo '<div class="alert alert-success" role="alert">Adoption Status: ' . $row['application_status'] . '</div>';
+                    }
                     echo '</div>';
-                    echo '<button type="submit" name="update_status" class="btn btn-primary">Submit</button>';
-                    echo '</form>';
-                } elseif ($row['application_status'] == 'Denied') {
-                    echo '<div class="alert alert-danger" role="alert">Adoption Status: ' . $row['application_status'] . '</div>';
-                } elseif ($row['application_status'] == 'Accepted') {
-                    echo '<div class="alert alert-success" role="alert">Adoption Status: ' . $row['application_status'] . '</div>';
+                    echo '</div>';
                 }
-                echo '</div>';
-                echo '</div>';
+            } else {
+                echo '<p>No applications found.</p>';
             }
         } elseif ($user_type == 'adopter') {
             // Display applications with corresponding user id
@@ -104,23 +108,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_status'])) {
             $stmt->execute();
             $result = $stmt->get_result();
             
-            // Process and display the applications
-            while ($row = mysqli_fetch_assoc($result)) {
-                // Display application details in Bootstrap cards
-                echo '<div class="card">';
-                echo '<div class="card-body">';
-                echo '<h5 class="card-title">Application ID: ' . $row['application_id'] . '</h5>';
-                echo '<p class="card-text">Shelter Name: ' . $row['shelter_name'] . '</p>';
-                echo '<p class="card-text">Bird Name: ' . $row['bird_name'] . '</p>';
-                if ($row['application_status'] == 'Pending') {
-                    echo '<div class="alert alert-primary" role="alert">Adoption Status: ' . $row['application_status'] . '</div>';
-                } elseif ($row['application_status'] == 'Denied') {
-                    echo '<div class="alert alert-danger" role="alert">Adoption Status: ' . $row['application_status'] . '</div>';
-                } elseif ($row['application_status'] == 'Accepted') {
-                    echo '<div class="alert alert-success" role="alert">Adoption Status: ' . $row['application_status'] . '</div>';
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    echo '<div class="card">';
+                    echo '<div class="card-body">';
+                    echo '<h5 class="card-title">Application ID: ' . $row['application_id'] . '</h5>';
+                    echo '<p class="card-text">Shelter Name: ' . $row['shelter_name'] . '</p>';
+                    echo '<p class="card-text">Bird Name: ' . $row['bird_name'] . '</p>';
+                    if ($row['application_status'] == 'Pending') {
+                        echo '<div class="alert alert-primary" role="alert">Adoption Status: ' . $row['application_status'] . '</div>';
+                    } elseif ($row['application_status'] == 'Denied') {
+                        echo '<div class="alert alert-danger" role="alert">Adoption Status: ' . $row['application_status'] . '</div>';
+                    } elseif ($row['application_status'] == 'Accepted') {
+                        echo '<div class="alert alert-success" role="alert">Adoption Status: ' . $row['application_status'] . '</div>';
+                    }
+                    echo '</div>';
+                    echo '</div>';
                 }
-                echo '</div>';
-                echo '</div>';
+            } else {
+                echo '<p>No applications found.</p>';
             }
         }
         ?>

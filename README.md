@@ -1,6 +1,14 @@
 # B1RD: Online Bird Adoption Platform Concept
 ***This project runs on the XAMPP Apache distribution***
 
+## Instructions for Site Replication
+
+1. Clone the Repository
+2. Start/Run MySQL Server
+3. Import objects/b1rd_db.SQL dump file into a databased named "b1rd_db"
+4. Configure connection.php
+5. Start/Run Apache Server
+
 ## Introduction
 
 Our scenario revolves around developing an online bird adoption platform dedicated to

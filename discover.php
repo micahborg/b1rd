@@ -155,52 +155,55 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_application'])
                     <div class="card">
                         <div class="card-body">
                             <?php echo '<img class="card-img-top" src="data:image/jpeg;base64,' . base64_encode($row['bird_image']) . '" alt="Card image cap">' ?>
-                            <h5 class="card-title"><?= htmlspecialchars($row['bird_name']) ?></h5>
+                            <h5 class="card-title alert alert-success" style="padding: 10px 0px 0px 0px;"><?= htmlspecialchars($row['bird_name']) ?></h5>
                             <p class="card-text">Species: <?= htmlspecialchars($row['species']) ?></p>
-                            <p>Type: <?= htmlspecialchars($row['bird_type']) ?></p>
-                            <p>Age: <?= htmlspecialchars($row['bird_age']) ?></p>
-                            <p>Medical History: <?= htmlspecialchars($row['medical_history']) ?></p>
-                            <p>Behavior: <?= htmlspecialchars($row['behavior']) ?></p>
-                            <p>Adoption Status: <?= htmlspecialchars($row['adoption_status']) ?></p>
+                            <p class="card-text">Type: <?= htmlspecialchars($row['bird_type']) ?></p>
+                            <p class="card-text">Age: <?= htmlspecialchars($row['bird_age']) ?></p>
+                            <p class="card-text">Medical History: <?= htmlspecialchars($row['medical_history']) ?></p>
+                            <p class="card-text">Behavior: <?= htmlspecialchars($row['behavior']) ?></p>
+                            <p class="card-text">Adoption Status: <?= htmlspecialchars($row['adoption_status']) ?></p>
+                            <p class="card-text">Shelter: <?= htmlspecialchars($row['shelter_name']) ?></p>
+
+                            <?php if (isset($_SESSION['user_id'])): ?>
                             <a class="btn btn-primary" data-toggle="modal" data-target="#<?= $modalId ?>">Adopt Now</a>
 
                             <!-- Adopt Now Modal -->
-                            <div class="modal fade" id="<?= $modalId ?>" tabindex="-1" role="dialog" aria-labelledby="adoptModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="adoptModalLabel">Submit Adoption Application</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <?php if (htmlspecialchars($row['adoption_status']) == "Not Available"): ?>
-                                                <p>This bird is not available for adoption.</p>
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            <?php else: ?>
-                                            <form action="" method="POST">
-                                                <div class="form-group">
-                                                    <label for="reason">Reason for Adoption</label>
-                                                    <textarea class="form-control" id="reason" name="reason" placeholder="Enter your 'why' for adopting this bird"></textarea>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="confirmPassword">Confirm Password</label>
-                                                    <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" placeholder="Confirm password">
-                                                </div>
-                                                <input type="hidden" name="bird_id" value="<?= htmlspecialchars($row['bird_id']) ?>">
-                                                <div class="modal-footer">
+                                <div class="modal fade" id="<?= $modalId ?>" tabindex="-1" role="dialog" aria-labelledby="adoptModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="adoptModalLabel">Submit Adoption Application</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <?php if (htmlspecialchars($row['adoption_status']) == "Not Available"): ?>
+                                                    <p>This bird is not available for adoption.</p>
                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                    <button type="submit" class="btn btn-primary" name="submit_application">Submit</button>
-                                                </div>
-                                            </form>
-                                            <?php endif; ?>
+                                                <?php else: ?>
+                                                <form action="" method="POST">
+                                                    <div class="form-group">
+                                                        <label for="reason">Reason for Adoption</label>
+                                                        <textarea class="form-control" id="reason" name="reason" placeholder="Enter your 'why' for adopting this bird"></textarea>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="confirmPassword">Confirm Password</label>
+                                                        <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" placeholder="Confirm password">
+                                                    </div>
+                                                    <input type="hidden" name="bird_id" value="<?= htmlspecialchars($row['bird_id']) ?>">
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-primary" name="submit_application">Submit</button>
+                                                    </div>
+                                                </form>
+                                                <?php endif; ?>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <!-- End Adopt Now Modal -->
-
+                                <!-- End Adopt Now Modal -->
+                            <?php endif; ?>
                         </div>
                     </div>
             <?php endwhile; ?>
