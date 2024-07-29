@@ -9,8 +9,6 @@
 4. Configure connection.php
 5. Start/Run Apache Server
 
-![Homepage](images/homepage.png)
-
 ## Introduction
 
 Our scenario revolves around developing an online bird adoption platform dedicated to
@@ -18,6 +16,9 @@ connecting bird lovers with avian rescue organizations and shelters offering bir
 The platform aims to streamline the process of finding, adopting, and caring for pet birds in
 need of a new home. This approach to bird adoption allows for rescue organizations and shelters
 to bird adoptions.
+
+## Demo Video
+https://github.com/user-attachments/assets/8479e7a8-fb5e-46d8-854c-2fbed97d0fcb
 
 ## Requirements Analysis
 
